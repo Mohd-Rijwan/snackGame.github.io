@@ -8,15 +8,30 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <section id="overplay">
-        <div id="card">
-            <p>Use Keys-->Up-Down-Left-Right</p>
-            <p>High Scored: <span id="card-score1">0</span></p>
-            <p>You Scored: <span id="card-score">0</span></p>
-            <button onclick="restartGame()">Restart</button>
+
+    <div class="container">
+        <section id="overplay">
+            <div id="card">
+                <p>Use Keys-->Up-Down-Left-Right</p>
+                <p>High Scored: <span id="card-score1">0</span></p>
+                <p>You Scored: <span id="card-score">0</span></p>
+                <button onclick="restartGame()">Restart</button>
+            </div>
+        </section>
+        <canvas id="canvas" height="400" width="400" style="border:5px solid black">This is canvas</canvas>
+        <div class="btn">
+            <div class="box"></div>
+            <div class="box"><button class="up">Up</button></div>
+            <div class="box"></div>
+            <div class="box"><button class="left">Left</button></div>
+            <div class="box"><button class="pause">Pause</button></div>
+            <div class="box"><button class="right">Right</button></div>
+            <div class="box"></div>
+            <div class="box"><button class="down">Down</button></div>
+            <div class="box"></div>
         </div>
-    </section>
-    <canvas id="canvas" height="400" width="400" style="border:5px solid black">This is canvas</canvas>
+    </div>
+    
 </body>
 <script src="main.js"></script>
 </html>
