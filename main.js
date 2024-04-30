@@ -1,3 +1,7 @@
+
+
+var flag = true;
+
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 
@@ -9,6 +13,16 @@ const music = new Audio('music.mp3');
 const move = new Audio('move.mp3');
 const eat = new Audio('eat.mp3');
 const gameover = new Audio('gameover.mp3');
+
+var up = document.querySelector(".up")
+var down = document.querySelector(".down")
+var left = document.querySelector(".left")
+var right = document.querySelector(".right")
+var pause = document.querySelector(".pause")
+
+
+
+
 
 let Hscore = 0;
 let score = 0;
@@ -25,19 +39,22 @@ food()
 updateScore(score);
 
 function restartGame(button) {
-
-    if (!interval) {
+// flag=true 
+    if (!interval) {     //To Break double start
         score = 0
         card.style.display = "none";
 
         interval = setInterval(() => {
             music.play();
-            
+
             Navigation();
+
             
+
+
             // Moving the snake
             for (let i = arr.length - 2; i >= 0; i--) {
-                arr[i + 1] = { ...arr[i] };
+                arr[i + 1] = { ...arr[i] };  //Destructuring
             }
             arr[0].x += a1
             arr[0].y += a2
@@ -46,6 +63,7 @@ function restartGame(button) {
             eaten();
             updateScore(score);
 
+            //Wall cross
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i].x === 400) {
                     arr[i].x = 0
@@ -72,6 +90,24 @@ function restartGame(button) {
     }
 }
 
+// pause code start 
+pause.addEventListener("click", () => {
+    if (interval) {
+        music.pause();
+        card.style.display = "block";
+        clearInterval(interval);
+        interval = null;
+        flag = false
+        pause.textContent = "Play"
+    }
+    else {
+        pause.textContent = "Pause";
+        flag = true
+        restartGame()
+    }
+})
+// pause code end
+
 function snack() {
     ctx.beginPath()
     for (let i = 0; i < arr.length; i++) {
@@ -97,30 +133,28 @@ function updateScore(score) {
         HScore.innerHTML = Hscore;
     }
 }
-function Navigation(){
+
+function Navigation() {
+
     window.addEventListener('keydown', e => {
         move.play();
         switch (e.key) {
             case "ArrowUp":
-                console.log("ArrowUp");
                 a1 = 0;
                 a2 = -10;
                 break;
 
             case "ArrowDown":
-                console.log("ArrowDown");
                 a1 = 0;
                 a2 = 10;
                 break;
 
             case "ArrowLeft":
-                console.log("ArrowLeft");
                 a1 = -10;
                 a2 = 0;
                 break;
 
             case "ArrowRight":
-                console.log("ArrowRight");
                 a1 = 10;
                 a2 = 0;
                 break;
@@ -129,9 +163,57 @@ function Navigation(){
         }
 
     });
+
+    // manual button code start 
+    up.addEventListener("click", () => {
+        a1 = 0;
+        a2 = -10;
+    })
+    down.addEventListener("click", () => {
+        a1 = 0;
+        a2 = 10;
+    })
+    left.addEventListener("click", () => {
+        a1 = -10;
+        a2 = 0;
+    })
+    right.addEventListener("click", () => {
+        a1 = 10;
+        a2 = 0;
+    })
+    // manual button code end
+
 }
 
-function collision(){
+// manual button code start 
+// var i1 = null, i2 = null;
+// left.addEventListener('touchstart', e => {
+//     left.style.background = "red"
+//     clearInterval(i2)
+//     i1 = setInterval(() => {
+//         a1 = -10;
+//         a2 = 0;
+//     }, 20);
+// })
+// right.addEventListener('touchstart', e => {
+//     right.style.background = "red"
+//     clearInterval(i1)
+//     i2 = setInterval(() => {
+//         a1 = 10;
+//        a2 = 0;
+//     }, 20);
+// })
+// left.addEventListener('touchend', e => {
+//     left.style.background = "#008CBA"
+//     clearInterval(i1)
+// })
+// right.addEventListener('touchend', e => {
+//     right.style.background = "#008CBA"
+//     clearInterval(i2)
+// })
+// manual button code end
+
+function collision() {
     for (let i = 1; i < arr.length; i++) {
         if (arr[0].x === arr[i].x && arr[0].y === arr[i].y) {
             music.pause();
@@ -153,7 +235,7 @@ function collision(){
     }
 }
 
-function  eaten(){
+function eaten() {
     if (arr[0].x === f1 && arr[0].y === f2) {
         eat.play();
         arr.unshift({ x: arr[0].x + a1, y: arr[0].y + a2 });
